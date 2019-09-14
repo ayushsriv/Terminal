@@ -81,12 +81,14 @@ class AlgoStrategy(gamelib.AlgoCore):
         #     game_state.attempt_spawn(PING, [21,7], num=7)
         # else:
 
-        numOfBits = 0
-        while numOfBits <= game_state.BITS:
-            numOfBits += 1
-        if game_state.get_resource(game_state.BITS) > 10:
-            game_state.attempt_spawn(PING, [21, 7], num=7)
-            game_state.attempt_spawn(PING, [22, 8], num=10)
+       
+        
+        
+        if game_state.get_resource(game_state.BITS) >= 10:
+            game_state.attempt_spawn(EMP, [3, 10], num=2)
+            while game_state.get_resource(game_state.BITS) >= game_state.type_cost(PING):
+                game_state.attempt_spawn(PING, [10, 3], num=1)
+            
 
         # if game_state.turn_number < 5:
         #     self.stall_with_scramblers(game_state)
@@ -169,7 +171,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         game_state.attempt_spawn(DESTRUCTOR, end_destructor_locations)
 
         # Place filters in front of destructors to soak up damage for them
-        game_state.attempt_spawn(FILTER, end_filter_locations)
+        game_state.attempt_spawn(FILTER, end_destructor_locations)
 
         # Place filters in front of destructors to soak up damage for them
         game_state.attempt_spawn(ENCRYPTOR, end_encryptor_locations)
