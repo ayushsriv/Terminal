@@ -70,6 +70,13 @@ class AlgoStrategy(gamelib.AlgoCore):
         For offense we will use long range EMPs if they place stationary units near the enemy's front.
         If there are no stationary units to attack in the front, we will send Pings to try and score quickly.
         """
+
+        if game_state.get_resource(game_state.BITS) >= 13 and game_state.get_resource(game_state.BITS) <= 19:
+            game_state.attempt_remove(FILTER, [[1,13]])
+        elif game_state.get_resource(game_state.BITS) < 13:
+            game_state.attempt_spawn(FILTER, [[1, 13]],num=1)
+
+
         # First, place basic defenses
         self.build_defences(game_state)
 
@@ -81,14 +88,15 @@ class AlgoStrategy(gamelib.AlgoCore):
         #     game_state.attempt_spawn(PING, [21,7], num=7)
         # else:
 
-       
-        
-        
+
+
+
         if game_state.get_resource(game_state.BITS) >= 19:
             game_state.attempt_spawn(SCRAMBLER, [3, 10], num=14)
             while game_state.get_resource(game_state.BITS) >= game_state.type_cost(PING):
                 #game_state.attempt_spawn(PING, [12, 1], num=1)
                 game_state.attempt_spawn(PING, [21, 7], num=1)
+
             
 
         # if game_state.turn_number < 5:
