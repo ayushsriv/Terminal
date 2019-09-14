@@ -84,10 +84,11 @@ class AlgoStrategy(gamelib.AlgoCore):
        
         
         
-        if game_state.get_resource(game_state.BITS) >= 10:
-            game_state.attempt_spawn(EMP, [3, 10], num=2)
+        if game_state.get_resource(game_state.BITS) >= 19:
+            game_state.attempt_spawn(SCRAMBLER, [3, 10], num=14)
             while game_state.get_resource(game_state.BITS) >= game_state.type_cost(PING):
-                game_state.attempt_spawn(PING, [10, 3], num=1)
+                #game_state.attempt_spawn(PING, [12, 1], num=1)
+                game_state.attempt_spawn(PING, [21, 7], num=1)
             
 
         # if game_state.turn_number < 5:
@@ -109,71 +110,85 @@ class AlgoStrategy(gamelib.AlgoCore):
         # game_state.attempt_spawn(PING, best_location, 1000)
 
     def build_defences(self, game_state):
-        """
-        Build basic defenses using hardcoded locations.
-        Remember to defend corners and avoid placing units in the front where enemy EMPs can attack them.
-        """
-        # Useful tool for setting up your base locations: https://www.kevinbai.design/terminal-map-maker
-        # More community tools available at: https://terminal.c1games.com/rules#Download
+        # basic_destructor_locations = [[3, 12], [26, 12], [6, 9], [13, 8], [20, 8]]
+        # basic_filter_locations = [[2, 13], [3, 13], [26, 13], [27, 13], [4, 12], [25, 12], [5, 11], [24, 11], [6, 10],
+        #                           [23, 10], [7, 9], [8, 9], [9, 9], [10, 9], [13, 9], [14, 9], [20, 9], [21, 9],
+        #                           [22, 9]]
 
-        # Place destructors that attack enemy units
-        basic_destructor_locations = [[3, 12], [26, 12], [6, 9], [13, 8], [20, 8]]
-        basic_filter_locations = [[2, 13], [3, 13], [26, 13], [27, 13], [4, 12], [25, 12], [5, 11], [24, 11], [6, 10],
-                                  [23, 10], [7, 9], [8, 9], [9, 9], [10, 9], [13, 9], [14, 9], [20, 9], [21, 9],
-                                  [22, 9]]
 
-        mid_game_destructor_locations = [[0, 13], [3, 12], [26, 12], [4, 11], [6, 9], [10, 8], [13, 8], [20, 8]]
-        mid_game_filter_locations = [[2, 13], [3, 13], [26, 13], [27, 13], [4, 12], [25, 12], [5, 11], [24, 11],
-                                     [6, 10], [23, 10], [7, 9], [8, 9], [9, 9], [10, 9], [13, 9], [14, 9], [15, 9],
-                                     [16, 9], [17, 9], [18, 9], [19, 9], [20, 9], [21, 9], [22, 9], [11, 8], [12, 8]]
-        mid_game_encryptor_locations = [[7, 8], [8, 8], [8, 7]]
 
-        close_to_end_destructor_locations = [[0, 13], [3, 12], [26, 12], [4, 11], [5, 10], [6, 9], [23, 9], [10, 8],
-                                             [13, 8], [14, 8], [20, 8], [11, 7]]
-        close_to_end_filter_locations = [[2, 13], [3, 13], [26, 13], [27, 13], [4, 12], [25, 12], [5, 11], [24, 11],
-                                         [6, 10], [23, 10], [7, 9], [8, 9], [9, 9], [10, 9], [13, 9], [14, 9], [15, 9],
-                                         [16, 9], [17, 9], [18, 9], [19, 9], [20, 9], [21, 9], [22, 9], [11, 8],
-                                         [12, 8]]
-        close_to_end_encryptor_locations = [[7, 8], [8, 8], [8, 7]]
+        # mid_game_destructor_locations = [[0, 13], [3, 12], [26, 12], [4, 11], [6, 9], [10, 8], [13, 8], [20, 8]]
+        # mid_game_filter_locations = [[2, 13], [3, 13], [26, 13], [27, 13], [4, 12], [25, 12], [5, 11], [24, 11],
+        #                              [6, 10], [23, 10], [7, 9], [8, 9], [9, 9], [10, 9], [13, 9], [14, 9], [15, 9],
+        #                              [16, 9], [17, 9], [18, 9], [19, 9], [20, 9], [21, 9], [22, 9], [11, 8], [12, 8]]
 
-        end_destructor_locations = [[0, 13], [3, 13], [3, 12], [26, 12], [4, 11], [25, 11], [5, 10], [6, 9], [23, 9],
-                                    [10, 8], [13, 8], [14, 8], [18, 8], [20, 8], [21, 8], [11, 7]]
-        end_filter_locations = [[2, 13], [3, 13], [26, 13], [27, 13], [4, 12], [25, 12], [5, 11], [24, 11], [6, 10],
-                                [23, 10], [7, 9], [8, 9], [9, 9], [10, 9], [13, 9], [14, 9], [15, 9],
-                                [16, 9], [17, 9], [18, 9], [19, 9], [20, 9], [21, 9], [22, 9], [11, 8], [12, 8]]
-        end_encryptor_locations = [[7, 8], [8, 8], [9, 8], [8, 7], [9, 7], [9, 6]]
+        
+        
+        # mid_game_encryptor_locations = [[7, 8], [8, 8], [8, 7]]
+        # close_to_end_destructor_locations = [[0, 13], [3, 12], [26, 12], [4, 11], [5, 10], [6, 9], [23, 9], [10, 8],
+        #                                      [13, 8], [14, 8], [20, 8], [11, 7]]
+        # close_to_end_filter_locations = [[2, 13], [3, 13], [26, 13], [27, 13], [4, 12], [25, 12], [5, 11], [24, 11],
+        #                                  [6, 10], [23, 10], [7, 9], [8, 9], [9, 9], [10, 9], [13, 9], [14, 9], [15, 9],
+        #                                  [16, 9], [17, 9], [18, 9], [19, 9], [20, 9], [21, 9], [22, 9], [11, 8],
+        #                                  [12, 8]]
+        # close_to_end_encryptor_locations = [[7, 8], [8, 8], [8, 7]]
 
-        # attempt_spawn will try to spawn units if we have resources, and will check if a blocking unit is already there
+        # end_destructor_locations = [[0, 13], [3, 13], [3, 12], [26, 12], [4, 11], [25, 11], [5, 10], [6, 9], [23, 9],
+        #                             [10, 8], [13, 8], [14, 8], [18, 8], [20, 8], [21, 8], [11, 7]]
+        # end_filter_locations = [[2, 13], [3, 13], [26, 13], [27, 13], [4, 12], [25, 12], [5, 11], [24, 11], [6, 10],
+        #                         [23, 10], [7, 9], [8, 9], [9, 9], [10, 9], [13, 9], [14, 9], [15, 9],
+        #                         [16, 9], [17, 9], [18, 9], [19, 9], [20, 9], [21, 9], [22, 9], [11, 8], [12, 8]]
+        # end_encryptor_locations = [[7, 8], [8, 8], [9, 8], [8, 7], [9, 7], [9, 6]]
+
+
+        #Dhruv's Stuff
+
+        basic_destructor_locations = [[3, 12], [24, 12], [23, 11], [5, 10], [21, 9], [7, 8], [10, 8],
+        [13, 8], [16, 8], [19, 8]]
+        basic_filter_locations =  [[0, 13], [2, 13], [3, 13], [25, 13], [26, 13], [27, 13], [4, 11], [22, 10], [6, 9], [8, 8], [9, 8], [11, 8], 
+        [12, 8], [14, 8], [15, 8], [17, 8], [18, 8], [20, 8]]
+
+        mid_game_destructor_locations = [[3, 12], [24, 12], [23, 11], [5, 10], [21, 9], [7, 8], [10, 8], [13, 8], [16, 8], [19, 8]]
+        mid_game_filter_locations =  [[0, 13], [2, 13], [3, 13], [24, 13], [25, 13], [26, 13], [27, 13], [4, 12], [23, 12], [4, 11], [5, 11], [22, 11], [6, 10], [21, 10], [22, 10], [6, 9], [7, 9], [10, 9], [13, 9], [16, 9], 
+        [19, 9], [8, 8], [9, 8], [11, 8], [12, 8], [14, 8], [15, 8], [17, 8], [18, 8], [20, 8]]
+        
+        end_destructor_locations =  [[3, 12], [24, 12], [25, 12], [23, 11], [24, 11], [5, 10], [21, 9], [22, 9], [7, 8], [10, 8], [13, 8], [16, 8], [19, 8], [21, 8], 
+        [10, 7], [12, 7], [13, 7], [14, 7], [15, 7], [17, 7], [18, 7], [19, 7]]
+        end_filter_locations = [[0, 13], [2, 13], [3, 13], [24, 13], [25, 13], [26, 13], [27, 13], [4, 12], [23, 12], [5, 11], [22, 11], [6, 10], [21, 10], [22, 10], [6, 9], [7, 9], [10, 9], [13, 9], [16, 9], [19, 9], [8, 8],
+         [9, 8], [11, 8], [12, 8], [14, 8], [15, 8], [17, 8], [18, 8], [20, 8]]
+        end_encryptor_locations = [[4, 11], [8, 7], [9, 7], [9, 6], [10, 6], [10, 5], [11, 5], [11, 4], [12, 4],
+         [12, 3], [13, 3], [13, 2], [14, 2]]
+
+
+        
         game_state.attempt_spawn(DESTRUCTOR, basic_destructor_locations)
 
-        # Place filters in front of destructors to soak up damage for them
+        
         game_state.attempt_spawn(FILTER, basic_filter_locations)
 
-        # attempt_spawn will try to spawn units if we have resources, and will check if a blocking unit is already there
+       
         game_state.attempt_spawn(DESTRUCTOR, mid_game_destructor_locations)
 
-        # Place filters in front of destructors to soak up damage for them
+        
         game_state.attempt_spawn(FILTER, mid_game_filter_locations)
 
-        # Place filters in front of destructors to soak up damage for them
-        game_state.attempt_spawn(ENCRYPTOR, mid_game_encryptor_locations)
+     
+        #game_state.attempt_spawn(ENCRYPTOR, mid_game_encryptor_locations)
 
-        # attempt_spawn will try to spawn units if we have resources, and will check if a blocking unit is already there
-        game_state.attempt_spawn(DESTRUCTOR, close_to_end_destructor_locations)
+       
+        #game_state.attempt_spawn(DESTRUCTOR, close_to_end_destructor_locations)
 
-        # Place filters in front of destructors to soak up damage for them
-        game_state.attempt_spawn(FILTER, close_to_end_filter_locations)
+        
+        #game_state.attempt_spawn(FILTER, close_to_end_filter_locations)
 
-        # Place filters in front of destructors to soak up damage for them
-        game_state.attempt_spawn(ENCRYPTOR, close_to_end_encryptor_locations)
+        
+        #game_state.attempt_spawn(ENCRYPTOR, close_to_end_encryptor_locations)
 
-        # attempt_spawn will try to spawn units if we have resources, and will check if a blocking unit is already there
         game_state.attempt_spawn(DESTRUCTOR, end_destructor_locations)
 
-        # Place filters in front of destructors to soak up damage for them
-        game_state.attempt_spawn(FILTER, end_destructor_locations)
 
-        # Place filters in front of destructors to soak up damage for them
+        game_state.attempt_spawn(FILTER, end_filter_locations)
+
         game_state.attempt_spawn(ENCRYPTOR, end_encryptor_locations)
 
     def build_reactive_defense(self, game_state):
